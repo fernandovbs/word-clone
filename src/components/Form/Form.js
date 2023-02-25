@@ -12,7 +12,7 @@ function Form({handleFormSubmit}) {
   return (
   <form className="guess-input-wrapper" onSubmit={handleSubmit}>
     <label htmlFor="guess-input">Enter guess:</label>
-    <input id="guess-input" type="text"  pattern="[A-Za-z]{5}" value={guessValue} onChange={(e) => {setGuessValue(e.target.value?.toUpperCase())}}/>
+    <input id="guess-input" type="text"  pattern="[A-Za-z]{5}" title="5 letter word" value={guessValue} onChange={(e) => {setGuessValue(e.target.value?.toUpperCase())}}/>
   </form>  
   );
 }
