@@ -28,17 +28,17 @@ function Game() {
 
   function makeGuess(guess) {
 
-    if (guess === answer) {
-      setGameRunning(false);
-      setPlayerWon(true);
-    }
-
     SetGuesses([...guesses, guess]);
 
-    if (guesses.length >= (NUM_OF_GUESSES_ALLOWED - 1) ) {
+    if (guesses.length >= (NUM_OF_GUESSES_ALLOWED - 1) && (guess !== answer)) {
       setGameRunning(false);
       setPlayerWon(false);
       return;
+    }
+
+    if (guess === answer) {
+      setGameRunning(false);
+      setPlayerWon(true);
     }
   }
   
@@ -53,7 +53,7 @@ function Game() {
     </div>
     }
     {(!gameRunning && !playerWon) && 
-      <div class="sad banner">
+      <div className="sad banner">
         <p>Sorry, the correct answer is <strong>{answer}</strong>.</p>
         <p><button onClick={resetGame}>Play again!</button></p>
       </div>
