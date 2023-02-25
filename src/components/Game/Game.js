@@ -12,7 +12,7 @@ const answer = sample(WORDS);
 
 function Game() {
   const [guesses, SetGuesses] = React.useState([]);
-  const [gameRunning, setGameRunning] = React.useState(true);
+  const [gameStatus, setGameStatus] = React.useState('running');
   const [playerWon, setPlayerWon] = React.useState(false);
   const [answer, setAnswer] = React.useState(sample(WORDS));
 
@@ -20,8 +20,7 @@ function Game() {
 
   function resetGame() {
     setAnswer(sample(WORDS)); 
-    setGameRunning(true); 
-    setPlayerWon(false); 
+    setGameStatus('running'); 
     SetGuesses([]);
     console.info({ answer });
   }
@@ -31,19 +30,17 @@ function Game() {
     SetGuesses([...guesses, guess]);
 
     if (guesses.length >= (NUM_OF_GUESSES_ALLOWED - 1) && (guess !== answer)) {
-      setGameRunning(false);
-      setPlayerWon(false);
+      setGameStatus('lose');
       return;
     }
 
     if (guess === answer) {
-      setGameRunning(false);
-      setPlayerWon(true);
+      setGameStatus('won');
     }
   }
   
   return <>
-    {(!gameRunning && playerWon) && 
+    {(gameStatus === 'won') && 
     <div className="happy banner">
       <p>
         <strong>Congratulations!</strong> Got it in {' '}
@@ -52,14 +49,14 @@ function Game() {
     <p><button onClick={resetGame}>Play again!</button></p>
     </div>
     }
-    {(!gameRunning && !playerWon) && 
+    {(gameStatus === 'lose') && 
       <div className="sad banner">
         <p>Sorry, the correct answer is <strong>{answer}</strong>.</p>
         <p><button onClick={resetGame}>Play again!</button></p>
       </div>
     }    
     <GuessesList guesses={guesses} answer={answer} />
-    {gameRunning && <Form handleFormSubmit={makeGuess} />}
+    {gameStatus === 'running' && <Form handleFormSubmit={makeGuess} />}
   </>;
 }
 
